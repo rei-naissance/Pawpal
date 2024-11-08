@@ -9,6 +9,17 @@ import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 
 import { ActivityIndicator, MD2Colors, Chip } from "react-native-paper";
 
+import axios from "axios";
+
+const fetchData = async () => {
+  try {
+    const response = await axios.get("http://localhost:5272/api/data/test");
+    console.log(response.data);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
 export default function HomeScreen() {
   return (
     <PaperProvider>
@@ -67,7 +78,7 @@ export default function HomeScreen() {
         </ThemedView>
 
         <ActivityIndicator animating={true} color={MD2Colors.red800} />
-        <Chip icon="information" onPress={() => console.log("Pressed")}>
+        <Chip icon="information" onPress={() => fetchData()}>
           Example Chip
         </Chip>
       </ParallaxScrollView>
