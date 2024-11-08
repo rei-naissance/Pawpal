@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "PawPal",
-    "slug": "PawPal",
+    "slug": "pawpal",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -31,6 +31,12 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "5e18b47b-36e4-4117-9211-36c3088c3a86"
+      }
+    },
+    "owner": "paw_pal"
   }
 }

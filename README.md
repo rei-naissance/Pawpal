@@ -1,2 +1,3 @@
 # Pawpal
-A requisite project in compliance to CSIT321
+
+A requisite project in compliance to CSIT32
