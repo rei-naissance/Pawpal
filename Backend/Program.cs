@@ -2,11 +2,21 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using PawpalBackend.Models;
+using PawpalBackend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+
+// Configure DatabaseSettings from appsettings.json
+builder.Services.Configure<DatabaseSettings>(
+    builder.Configuration.GetSection("DatabaseSettings"));
+
+// Register UserService as a singleton
+builder.Services.AddSingleton<UserService>();
 
 // Define a CORS policy
 builder.Services.AddCors(options =>
@@ -30,7 +40,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 
-// Enable CORS
+// Enable CORS with the defined policy
 app.UseCors("AllowAll");
 
 app.MapControllers();

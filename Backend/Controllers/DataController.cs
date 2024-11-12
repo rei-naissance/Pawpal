@@ -1,20 +1,36 @@
 using Microsoft.AspNetCore.Mvc;
 using PawpalBackend.Models;
+using PawpalBackend.Services;
+using System.Threading.Tasks;
 
 [ApiController]
 [Route("api/[controller]")]
 public class DataController : ControllerBase
 {
-    [HttpGet("test")]
-    public IActionResult GetTest()
+    private readonly UserService _userService;
+
+    public DataController(UserService userService)
     {
-        return Ok(new { message = "Hello from ASP.NET!" });
+        _userService = userService;
     }
 
-    [HttpPost("data")]
-    public IActionResult PostData([FromBody] YourDataModel data)
+    [HttpPost("users")]
+    public async Task<IActionResult> CreateUser([FromBody] User newUser)
     {
-        // Process the incoming data
-        return Ok(data);
+        await _userService.CreateAsync(newUser);
+        return CreatedAtAction(nameof(GetUser), new { id = newUser.Id }, newUser);
+    }
+
+    [HttpGet("users/{id}")]
+    public async Task<IActionResult> GetUser(string id)
+    {
+        var user = await _userService.GetAsync(id);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(user);
     }
 }

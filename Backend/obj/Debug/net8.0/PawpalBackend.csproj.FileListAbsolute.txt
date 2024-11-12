@@ -24,3 +24,11 @@
 /home/ninin/Projects/Pawpal/Backend/obj/Debug/net8.0/PawpalBackend.pdb
 /home/ninin/Projects/Pawpal/Backend/obj/Debug/net8.0/PawpalBackend.genruntimeconfig.cache
 /home/ninin/Projects/Pawpal/Backend/obj/Debug/net8.0/ref/PawpalBackend.dll
+/home/ninin/Projects/Pawpal/Backend/bin/Debug/net8.0/DnsClient.dll
+/home/ninin/Projects/Pawpal/Backend/bin/Debug/net8.0/MongoDB.Bson.dll
+/home/ninin/Projects/Pawpal/Backend/bin/Debug/net8.0/MongoDB.Driver.dll
+/home/ninin/Projects/Pawpal/Backend/bin/Debug/net8.0/SharpCompress.dll
+/home/ninin/Projects/Pawpal/Backend/bin/Debug/net8.0/Snappier.dll
+/home/ninin/Projects/Pawpal/Backend/bin/Debug/net8.0/ZstdSharp.dll
+/home/ninin/Projects/Pawpal/Backend/obj/Debug/net8.0/PawpalBackend.csproj.AssemblyReference.cache
+/home/ninin/Projects/Pawpal/Backend/obj/Debug/net8.0/PawpalBackend.csproj.CopyComplete
