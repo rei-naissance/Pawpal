@@ -32,3 +32,4 @@
 /home/ninin/Projects/Pawpal/Backend/bin/Debug/net8.0/ZstdSharp.dll
 /home/ninin/Projects/Pawpal/Backend/obj/Debug/net8.0/PawpalBackend.csproj.AssemblyReference.cache
 /home/ninin/Projects/Pawpal/Backend/obj/Debug/net8.0/PawpalBackend.csproj.CopyComplete
+/home/ninin/Projects/Pawpal/Backend/bin/Debug/net8.0/PhoneNumbers.dll

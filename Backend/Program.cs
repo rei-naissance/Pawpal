@@ -44,4 +44,8 @@ app.UseAuthorization();
 app.UseCors("AllowAll");
 
 app.MapControllers();
+
+// for playit.gg
+// app.Run("http://0.0.0.0:5272");
+
 app.Run();
