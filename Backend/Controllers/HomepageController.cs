@@ -23,18 +23,15 @@ public class HomepageController : ControllerBase
 
         if (userFromDb == null)
         {
-            return NotFound();
+            return NotFound("User not found");
         }
-
-        // if (userFromDb.Password != user.Password)
-        // {
-        //     return Unauthorized();
-        // }
 
         if (!userFromDb.VerifyPassword(user.Password))
         {
-            return Unauthorized();
+            return Unauthorized("Invalid password");
         }
+
+        // var token = JwtHelper.GenerateToken(userFromDb);
 
         return Ok();
     }
@@ -46,45 +43,16 @@ public class HomepageController : ControllerBase
 
         if (userFromDb != null)
         {
-            return Conflict();
+            return Conflict("Username already exists");
         }
-
         newUser.SetPassword(newUser.Password);
 
+        newUser.Password = null;
+
         await _userService.CreateAsync(newUser);
+
+
         return CreatedAtAction(nameof(Login), newUser);
     }
 
 }
-
-// [ApiController]
-// [Route("api/[controller]")]
-// public class DataController : ControllerBase
-// {
-//     private readonly UserService _userService;
-
-//     public DataController(UserService userService)
-//     {
-//         _userService = userService;
-//     }
-
-//     [HttpPost("users")]
-//     public async Task<IActionResult> CreateUser([FromBody] User newUser)
-//     {
-//         await _userService.CreateAsync(newUser);
-//         return CreatedAtAction(nameof(GetUser), new { id = newUser.Id }, newUser);
-//     }
-
-//     [HttpGet("users/{id}")]
-//     public async Task<IActionResult> GetUser(string id)
-//     {
-//         var user = await _userService.GetAsync(id);
-
-//         if (user == null)
-//         {
-//             return NotFound();
-//         }
-
-//         return Ok(user);
-//     }
-// }

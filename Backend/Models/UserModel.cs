@@ -14,8 +14,12 @@ namespace PawpalBackend.Models
         [BsonElement("Username")]
         public string Username { get; set; }
 
+        [BsonIgnore]
+        public string Password { get; set; }
+
         [BsonElement("PasswordHash")]
         public string PasswordHash { get; set; }
+
         [BsonElement("PasswordSalt")]
         public string PasswordSalt { get; set; }
 
