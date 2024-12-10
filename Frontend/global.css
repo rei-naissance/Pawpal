@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root  {
+        --background: 351 0% 100%;
+        --foreground: 351 0% 10%;
+        --card: 351 0% 100%;
+        --card-foreground: 351 0% 15%;
+        --popover: 351 0% 100%;
+        --popover-foreground: 351 95% 10%;
+        --primary: 351 68.6% 46.3%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 351 10% 90%;
+        --secondary-foreground: 0 0% 0%;
+        --muted: 313 10% 95%;
+        --muted-foreground: 351 0% 40%;
+        --accent: 313 10% 90%;
+        --accent-foreground: 351 0% 15%;
+        --destructive: 0 50% 50%;
+        --destructive-foreground: 351 0% 100%;
+        --border: 351 20% 82%;
+        --input: 351 20% 50%;
+        --ring: 351 68.6% 46.3%;
+        --radius: 1rem;
+    }
+    .dark  {
+        --background: 351 10% 10%;
+        --foreground: 351 0% 100%;
+        --card: 351 0% 10%;
+        --card-foreground: 351 0% 100%;
+        --popover: 351 10% 5%;
+        --popover-foreground: 351 0% 100%;
+        --primary: 351 68.6% 46.3%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 351 10% 20%;
+        --secondary-foreground: 0 0% 100%;
+        --muted: 313 10% 25%;
+        --muted-foreground: 351 0% 65%;
+        --accent: 313 10% 25%;
+        --accent-foreground: 351 0% 95%;
+        --destructive: 0 50% 50%;
+        --destructive-foreground: 351 0% 100%;
+        --border: 351 20% 50%;
+        --input: 351 20% 50%;
+        --ring: 351 68.6% 46.3%;
+        --radius: 1rem;
+    }
+}
