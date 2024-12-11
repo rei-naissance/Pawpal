@@ -3,6 +3,7 @@ import {Button} from "@/components/Button";
 import {Text} from "@/components/Text";
 import {useRouter} from "expo-router";
 import {rgbaColor} from "react-native-reanimated/lib/typescript/reanimated2/Colors";
+import {H1, P} from "@/components/Typography";
 
 export default function LoginRegister_Layout() {
     const router = useRouter();
@@ -10,10 +11,11 @@ export default function LoginRegister_Layout() {
         <View style={styles.container}>
             <Image source={require('../../assets/images/splash_page_image.svg')} style={styles.image}
                    resizeMode={"contain"}/>
-            <h1 className={"text-3xl text-center font-bold pt-2 pb-1"}>Turn Up the Fun for Your Favorite Furball!</h1>
-            <h3 className={"text-sm text-center font-light pb-5"}>Find the best services for your pets—all in one app!</h3>
-            <div className={"flex flex-col min-w-full gap-4"}>
-                <Button variant={"outline"}>
+            <H1 className={"text-center pt-2 pb-1"}>Turn Up the Fun for Your Favorite Furball!</H1>
+            <P className={"text-center"}>Find the best services for your pets—all in one app!</P>
+            <View className={"p-5"}/>
+            <View className={"flex flex-col min-w-full gap-4"}>
+                <Button variant={"outline"} size={"lg"}>
                     <Text className={"flex items-center gap-3"}>
                         <svg xmlns="http://www.w3.org/2000/svg"
                              viewBox="0 0 488 512" height={20}>
@@ -23,7 +25,7 @@ export default function LoginRegister_Layout() {
                         Continue with Google
                     </Text>
                 </Button>
-                <Button variant={"outline"}>
+                <Button variant={"outline"} size={"lg"}>
                     <Text className={"flex items-center gap-3"}>
                         <svg xmlns="http://www.w3.org/2000/svg"
                              viewBox="0 0 384 512" height={25}>
@@ -33,18 +35,18 @@ export default function LoginRegister_Layout() {
                         Continue with Apple
                     </Text>
                 </Button>
-                <Button onPress={() => router.push('/Login')}>
-                    <Text>Login</Text>
+                <Button onPress={() => router.push('/Login')} size={"lg"} className={"bg-secondary"}>
+                    <Text>Sign in</Text>
                 </Button>
-                <div className={"flex justify-center items-center"} style={styles.or_container}>
+                <View className={"flex flex-row justify-center items-center"} style={styles.or_container}>
                     <hr className={"w-2/5 border-gray-300"}/>
-                    <h4 className={"p-2 color-gray-400"}>OR</h4>
+                    <P className={"p-2 color-gray-400"}>OR</P>
                     <hr className={"w-2/5 border-gray-300"}/>
-                </div>
-                <Button>
+                </View>
+                <Button size={"lg"}>
                     <Text>Register</Text>
                 </Button>
-            </div>
+            </View>
 
         </View>
     )
@@ -55,7 +57,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
-        margin: 50,
+        margin: 40,
     },
     image:{
         width: 260,
