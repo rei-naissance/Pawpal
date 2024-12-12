@@ -9,6 +9,7 @@ import {Controller, Form, SubmitErrorHandler, useForm} from "react-hook-form";
 import {Input} from "@/components/Input";
 import is from "@sindresorhus/is";
 import error = is.error;
+import axios from "axios";
 
 const FormSchema = z.object({
     username: z
@@ -32,7 +33,13 @@ const Login = () => {
     
     const OnSubmit = (data : z.infer<typeof FormSchema>) => {
         //TODO: Create axios post request to fetch id in backend, Frenz will deal with the error stuff so just put console.log as a placeholder
-        console.log(data);
+        axios.defaults.withCredentials = true;
+        axios.post("http://localhost:5272/users/login", data)
+            .then((res) => {
+                if (res.status === 200) {
+                    router.replace('/Dashboard');
+                }
+            })
     }
 
     return (

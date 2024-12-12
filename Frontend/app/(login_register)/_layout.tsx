@@ -2,7 +2,6 @@ import {View, Image, StyleSheet} from "react-native";
 import {Button} from "@/components/Button";
 import {Text} from "@/components/Text";
 import {useRouter} from "expo-router";
-import {rgbaColor} from "react-native-reanimated/lib/typescript/reanimated2/Colors";
 import {H1, P} from "@/components/Typography";
 
 export default function LoginRegister_Layout() {
