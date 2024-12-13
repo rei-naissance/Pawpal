@@ -10,6 +10,7 @@ import {Input} from "@/components/Input";
 import is from "@sindresorhus/is";
 import error = is.error;
 import axios from "axios";
+import {useState} from "react";
 
 const FormSchema = z.object({
     username: z
@@ -21,6 +22,7 @@ const FormSchema = z.object({
 })
 
 const Login = () => {
+    const [message, setMessage] = useState("");
     const router = useRouter();
 
     const {register, setValue, handleSubmit, control, reset, formState: {errors}} = useForm<z.infer<typeof FormSchema>>({
@@ -36,10 +38,15 @@ const Login = () => {
         axios.defaults.withCredentials = true;
         axios.post("http://localhost:5272/users/login", data)
             .then((res) => {
-                if (res.status === 200) {
-                    router.replace('/Dashboard');
-                }
+                router.replace('/Dashboard');
             })
+            .catch((err) => {
+                setMessage("Invalid username or password.");
+            })
+    }
+
+    const changeMessage = () => {
+        setMessage("");
     }
 
     return (
@@ -67,7 +74,7 @@ const Login = () => {
                             render={({field: {onChange, onBlur, value}}) => (
                                 <Input
                                     onBlur={onBlur}
-                                    onChangeText={value => onChange(value)}
+                                    onChangeText={value => {onChange(value); changeMessage()}}
                                     value={value}
                                     placeholder={"Username"}
                                 />
@@ -84,7 +91,7 @@ const Login = () => {
                             render={({field: {onChange, onBlur, value}}) => (
                                 <Input
                                     onBlur={onBlur}
-                                    onChangeText={value => onChange(value)}
+                                    onChangeText={value => {onChange(value); changeMessage();}}
                                     value={value}
                                     placeholder={"Password"}
                                     secureTextEntry
@@ -94,6 +101,7 @@ const Login = () => {
                             rules={{required: true}}
                         />
                         {errors.password?.message && <P className={"text-sm text-destructive pt-1"}>{errors.password.message}</P>}
+                        {message && <P className={"text-sm text-destructive pt-1"}>{message}</P>}
                         <Button variant={"link"} size={"sm"}>
                             <Text className={"text-foreground"}>Forgot password?</Text>
                         </Button>
