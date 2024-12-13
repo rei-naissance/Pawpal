@@ -45,10 +45,6 @@ const Login = () => {
             })
     }
 
-    const changeMessage = () => {
-        setMessage("");
-    }
-
     return (
         <>
             <Button className={"m-5"} onPress={() => router.back()} size={"icon"} variant={"ghost"}>
@@ -74,7 +70,7 @@ const Login = () => {
                             render={({field: {onChange, onBlur, value}}) => (
                                 <Input
                                     onBlur={onBlur}
-                                    onChangeText={value => {onChange(value); changeMessage()}}
+                                    onChangeText={value => {onChange(value); setMessage("")}}
                                     value={value}
                                     placeholder={"Username"}
                                 />
@@ -91,7 +87,7 @@ const Login = () => {
                             render={({field: {onChange, onBlur, value}}) => (
                                 <Input
                                     onBlur={onBlur}
-                                    onChangeText={value => {onChange(value); changeMessage();}}
+                                    onChangeText={value => {onChange(value); setMessage("")}}
                                     value={value}
                                     placeholder={"Password"}
                                     secureTextEntry
@@ -101,7 +97,7 @@ const Login = () => {
                             rules={{required: true}}
                         />
                         {errors.password?.message && <P className={"text-sm text-destructive pt-1"}>{errors.password.message}</P>}
-                        {message && <P className={"text-sm text-destructive pt-1"}>{message}</P>}
+                        <P className={"text-sm text-destructive pt-1"}>{message}</P>
                         <Button variant={"link"} size={"sm"}>
                             <Text className={"text-foreground"}>Forgot password?</Text>
                         </Button>
