@@ -38,7 +38,8 @@ const Login = () => {
         axios.defaults.withCredentials = true;
         axios.post("http://localhost:5272/users/login", data)
             .then((res) => {
-                router.replace('/Dashboard');
+                //use Context to keep ID, then spit it out somewhere else
+                router.replace('/(user_dashboard)/Dashboard');
             })
             .catch((err) => {
                 setMessage("Invalid username or password.");
