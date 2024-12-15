@@ -39,13 +39,11 @@ const Login = () => {
   });
 
   const OnSubmit = (data: z.infer<typeof FormSchema>) => {
-    //TODO: Create axios post request to fetch id in backend, Frenz will deal with the error stuff so just put console.log as a placeholder
     axios.defaults.withCredentials = true;
     axios
       .post("http://localhost:5272/users/login", data)
       .then((res) => {
-        //use Context to keep ID, then spit it out somewhere else
-        login(res.data.token); // change this so that we take in the token
+        login(res.data.token);
         router.replace("/(user_dashboard)/Dashboard");
       })
       .catch((err) => {

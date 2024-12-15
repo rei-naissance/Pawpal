@@ -15,7 +15,7 @@ const UserDashboard_Layout = () => {
                     <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color}></TabBarIcon>
                 )
             }} />
-            <Tabs.Screen name="Search" options={{
+            <Tabs.Screen name="(search)" options={{
                 tabBarIcon: ({color, focused}) => (
                     <TabBarIcon name={focused ? 'search' : 'search-outline'} color={color}></TabBarIcon>
                 )
