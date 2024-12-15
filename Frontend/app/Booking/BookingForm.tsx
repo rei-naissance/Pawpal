@@ -54,7 +54,7 @@ export default function Booking() {
         axios.post("http://localhost:5272/booking/create", mappedData)
             .then((res) => {
                 router.push({
-                    pathname: '/Invoice',
+                    pathname: '/Booking/Invoice',
                     params: {
                         ...mappedData
                     }
