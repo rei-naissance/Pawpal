@@ -19,12 +19,22 @@ const FormSchema = z.object({
 const ContactDetails = () => {
   const [message, setMessage] = useState("");
   const router = useRouter();
-  const params = useLocalSearchParams();
+  // const params = useLocalSearchParams();
 
-  // get data from params
-  const { firstname, lastname, username, password, email } = params;
+  // const { firstname, lastname, username, password, email } = params;
+  const firstname = sessionStorage.getItem("firstname");
+  const lastname = sessionStorage.getItem("lastname");
+  const username = sessionStorage.getItem("username");
+  const password = sessionStorage.getItem("password");
+  const email = sessionStorage.getItem("email");
 
-  //   console.log(data);
+  const params = {
+    firstname,
+    lastname,
+    username,
+    password,
+    email,
+  };
 
   const {
     register,

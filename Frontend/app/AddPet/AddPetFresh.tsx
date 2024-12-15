@@ -29,13 +29,13 @@ const newUserPet = () => {
   }
 
   useEffect(() => {
-    const userId = sessionStorage.getItem("userId"); // Replace this with dynamic user ID if needed
+    const userId = sessionStorage.getItem("userId");
     const fetchPets = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5272/pets/${userId}`
+          `http://localhost:5272/pets/owners/${userId}`
         );
-        setPets(response.data); // Assuming the API response is an array of pets
+        setPets(response.data);
       } catch (error) {
         console.error("Failed to fetch pets:", error);
       } finally {

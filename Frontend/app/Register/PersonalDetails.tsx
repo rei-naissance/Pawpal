@@ -49,16 +49,13 @@ const PersonalDetails = () => {
     axios
       .post("http://localhost:5272/users/checkuserandemail", data)
       .then((res) => {
-        router.push({
-          pathname: "/Register/ContactDetails",
-          params: {
-            firstname: data.firstname,
-            lastname: data.lastname,
-            username: data.username,
-            password: data.password,
-            email: data.email,
-          },
-        });
+        sessionStorage.setItem("firstname", data.firstname);
+        sessionStorage.setItem("lastname", data.lastname);
+        sessionStorage.setItem("username", data.username);
+        sessionStorage.setItem("password", data.password);
+        sessionStorage.setItem("email", data.email);
+
+        router.push("/Register/ContactDetails");
       })
       .catch((err) => {
         setMessage(err.response.data);

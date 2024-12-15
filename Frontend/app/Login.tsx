@@ -43,7 +43,18 @@ const Login = () => {
     axios
       .post("http://localhost:5272/users/login", data)
       .then((res) => {
-        login(res.data.token);
+        //use Context to keep ID, then spit it out somewhere else
+        login(res.data.token); // change this so that we take in the token
+
+        //save user data to session storage
+        sessionStorage.setItem("userId", res.data.id);
+        sessionStorage.setItem("username", res.data.username);
+        sessionStorage.setItem("firstname", res.data.firstName);
+        sessionStorage.setItem("lastname", res.data.lastName);
+        if (res.data.token) {
+          sessionStorage.setItem("jwtToken", res.data.token);
+        }
+
         router.replace("/(user_dashboard)/Dashboard");
       })
       .catch((err) => {

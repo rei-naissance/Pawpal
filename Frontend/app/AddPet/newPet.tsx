@@ -36,12 +36,7 @@ const newPet = () => {
     router.replace("/Login");
   }
 
-  // get data from session storage
   const userId = sessionStorage.getItem("userId");
-  const username = sessionStorage.getItem("username");
-  const firstname = sessionStorage.getItem("firstname");
-  const lastname = sessionStorage.getItem("lastname");
-  console.log(userId, username, firstname, lastname);
 
   const {
     register,
@@ -115,6 +110,9 @@ const newPet = () => {
           });
           base64Image = `data:image/jpeg;base64,${base64}`; // Prefix for Base64 image
         }
+      } else {
+        base64Image =
+          "https://images.vexels.com/content/235658/preview/dog-paw-icon-emblem-04b9f2.png";
       }
 
       const petData = {
@@ -173,7 +171,7 @@ const newPet = () => {
                 ) : (
                   <AvatarImage
                     source={{
-                      uri: "https://icons.veryicon.com/png/o/animal/pet-icon/dog-24.png",
+                      uri: "https://images.vexels.com/content/235658/preview/dog-paw-icon-emblem-04b9f2.png",
                     }}
                   />
                 )}
