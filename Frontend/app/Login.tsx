@@ -10,7 +10,8 @@ import {Input} from "@/components/Input";
 import is from "@sindresorhus/is";
 import error = is.error;
 import axios from "axios";
-import {useState} from "react";
+import {useContext, useState} from "react";
+import {AuthContext} from "@/components/authentication/AuthContext";
 
 const FormSchema = z.object({
     username: z
@@ -22,6 +23,7 @@ const FormSchema = z.object({
 })
 
 const Login = () => {
+    const {login} = useContext(AuthContext);
     const [message, setMessage] = useState("");
     const router = useRouter();
 
@@ -39,6 +41,7 @@ const Login = () => {
         axios.post("http://localhost:5272/users/login", data)
             .then((res) => {
                 //use Context to keep ID, then spit it out somewhere else
+                login(res.data.token) // change this so that we take in the token
                 router.replace('/(user_dashboard)/Dashboard');
             })
             .catch((err) => {
