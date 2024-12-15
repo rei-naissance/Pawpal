@@ -1,20 +1,20 @@
-import { View, Text, TextInput, StyleSheet } from 'react-native';
-import { z } from 'zod';
-import { useRouter } from 'expo-router';
+import { View, Text, StyleSheet } from 'react-native';
+import { map, z } from 'zod';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { Button } from '@/components/Button';
 import { H1, H3, P } from '@/components/Typography';
 import { Input } from '@/components/Input';
 import { Textarea } from '@/components/Textarea';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/Avatar';
-import DatePicker from 'react-native-date-picker';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { Controller, useForm } from 'react-hook-form';
 
 const FormSchema = z.object({
     date: z.string()
-            .min(1, "Date is required"),
+            .min(1, "Date is required")
+            .regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format. Use YYYY-MM-DD"),
     pet: z.string()
             .min(1, "Pet is required"),
     service: z.string()
@@ -27,11 +27,10 @@ const FormSchema = z.object({
 
 export default function Booking() {
     const [message, setMessage] = useState('');
-    const token = '';
-    const [date, setDate] = useState(new Date())
-    const [open, setOpen] = useState(false)
-
     const router = useRouter();
+    const params = useLocalSearchParams();
+
+    const { ProviderId, RecipientId } = params
 
     const {register, setValue, handleSubmit, control, reset, formState: {errors}} = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -45,20 +44,21 @@ export default function Booking() {
     });
 
     const OnSubmit = (data : z.infer<typeof FormSchema>) => {
-        const formattedDate = date.toISOString();
         const mappedData = {
-            DateOfBooking: formattedDate,
-            PetId: data.pet,
-            Service: data.service,
-            Location: data.location,
-            AdditionalInfo: data.description,
+            ...data,
+            ProviderId: ProviderId,
+            RecipientId: RecipientId
         }
-
 
         axios.defaults.withCredentials = true;
         axios.post("http://localhost:5272/booking/create", mappedData)
             .then((res) => {
-                router.replace('/Invoice');
+                router.push({
+                    pathname: '/Invoice',
+                    params: {
+                        ...mappedData
+                    }
+                });
             })
             .catch((err) => {
                 setMessage("Please check input fields.");
@@ -76,7 +76,7 @@ export default function Booking() {
                     </Text>
                 </Button>
             </View>
-            <View className='flex-row justify-between mx-10 px-10' style={styles.pawpalContainer}>
+            <View className='flex-row justify-between mx-10 px-10 my-0' style={styles.pawpalContainer}>
                 <View className='flex items-center justify-center'>
                     <Avatar alt={"avatar"} className={"h-24 w-24"} >
                         <AvatarImage
@@ -89,28 +89,22 @@ export default function Booking() {
                 </View>
                 <View className='items-center gap-2'>
                     <H3>Adrian Sajulga</H3>
-                    <Button className="px-10" variant={"secondary"}>View Profile</Button>
+                    <Button className="px-10" variant={"secondary"} onPress={() => router.push("/ServiceProfile")}>View Profile</Button>
                     <Button className="px-10" variant={"secondary"}>Chat Pawpal</Button>
                 </View>
             </View>
             <View style={styles.container}>
                 <H3>Booking Details</H3>
 
-                <View className="flex flex-col space-y-4">
+                <View className="flex flex-col space-y-4 mt-2">
                     <Controller
                         control={control}
                         render={({field: {onChange, onBlur, value}}) => (
-                            <DatePicker
-                                modal
-                                open={open}
-                                date={date}
-                                onConfirm={(date) => {
-                                    setOpen(false)
-                                    setDate(date)
-                                }}
-                                onCancel={() => {
-                                    setOpen(false)
-                                }}
+                            <Input
+                                onBlur={onBlur}
+                                onChangeText={value => onChange(value)}
+                                value={value}
+                                placeholder={"Date (YYYY-MM-DD)"}
                             />
                         )}
                         name="date"

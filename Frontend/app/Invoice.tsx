@@ -1,19 +1,39 @@
 import { View, StyleSheet } from "react-native"
-import { H1, H2, H3 } from "@/components/Typography"
+import { H1, H2, H3, P } from "@/components/Typography"
 import { Button } from "@/components/Button"
-import { useRouter } from "expo-router"
+import { useRouter, useLocalSearchParams } from "expo-router"
+import { useEffect, useState } from "react"
+import axios from "axios"
 
 const Invoice = () => {
+    const [providerName, setProviderName] = useState<string>("");
     const router = useRouter();
+    const { date, pet, service, location, description, ProviderId, RecipientId } = useLocalSearchParams();
+
+    useEffect(() => {
+        if(ProviderId) {
+            axios.get("http://localhost:5272/users/fetch-name", {
+            })
+            .then((response) => {
+                const { FirstName, LastName } = response.data;
+                setProviderName(`${FirstName} ${LastName}`);
+            })
+            .catch((error) => {
+                console.error("Error fetching provider details:", error);
+            });
+        }
+      }, []);
+
     return (
         <View>
             <View style={styles.container}>
                 <View className="flex-col justify-center items-center">
                     <H2 className="p-4">Successfully Booked!</H2>
-                    <H3 className="p-4">Pet Sitting with Adrian Sajulga</H3>
-                    <H3 className="p-4">12/12/2023 9:00AM</H3>
-                    <H3 className="p-4">Tres de Abril St., Cebu City</H3>
-                    <H3 className="p-4">Chichi</H3>
+                    <H3 className="p-4">{service} with {providerName || "Provider"}</H3>
+                    <H3 className="p-4">{date}</H3>
+                    <H3 className="p-4">{location}</H3>
+                    <H3 className="p-4">{pet}</H3>
+                    <P className="p-4">{description}</P>
                 </View>
             </View>
             <View className="m-5">
