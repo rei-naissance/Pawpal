@@ -10,6 +10,14 @@ const Invoice = () => {
     const router = useRouter();
     const { date, pet, service, location, description, ProviderId, RecipientId } = useLocalSearchParams();
 
+    var token = sessionStorage.getItem("jwtToken");
+    console.log(token);
+
+    // if token is not present, redirect to login
+    if (token == null) {
+        router.replace("/Login");
+    }
+
     useEffect(() => {
         if(ProviderId) {
             axios.get("http://localhost:5272/users/fetch-name", {

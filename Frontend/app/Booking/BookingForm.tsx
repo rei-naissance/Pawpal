@@ -43,6 +43,14 @@ export default function Booking() {
         }
     });
 
+    var token = sessionStorage.getItem("jwtToken");
+    console.log(token);
+
+    // if token is not present, redirect to login
+    if (token == null) {
+        router.replace("/Login");
+    }
+
     const OnSubmit = (data : z.infer<typeof FormSchema>) => {
         const mappedData = {
             ...data,
