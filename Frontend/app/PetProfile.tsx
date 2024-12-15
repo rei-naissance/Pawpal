@@ -3,7 +3,7 @@ import { View, Image, StyleSheet, Text } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { Button } from "@/components/Button";
-import { H1, P } from "@/components/Typography";
+import { H2, P } from "@/components/Typography";
 import { Input } from "@/components/Input";
 import { Avatar, AvatarImage } from "@/components/Avatar";
 import { z } from "zod";
@@ -164,23 +164,27 @@ const PetProfile = () => {
 
   return (
     <View className="m-5 gap-3">
-      <View className="flex flex-row">
-        <Button onPress={() => router.back()} size={"icon"} variant={"ghost"}>
-          <Text>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 512 512"
-              height={35}
-              fill={"#C7263E"}
-            >
-              <path d="M512 256A256 256 0 1 0 0 256a256 256 0 1 0 512 0zM271 135c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-87 87 87 87c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0L167 273c-9.4-9.4-9.4-24.6 0-33.9L271 135z" />
-            </svg>
+      <View className="flex flex-row justify-between">
+        <View className="flex flex-row items-center">
+          <Button onPress={() => router.back()} size={"icon"} variant={"ghost"}>
+            <Text>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 512 512"
+                height={35}
+                fill={"#C7263E"}
+              >
+                <path d="M512 256A256 256 0 1 0 0 256a256 256 0 1 0 512 0zM271 135c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-87 87 87 87c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0L167 273c-9.4-9.4-9.4-24.6 0-33.9L271 135z" />
+              </svg>
+            </Text>
+          </Button>
+          <Text className="text-3xl font-bold">
+            {isOwner ? "Edit Pet" : "Pet Profile"}
           </Text>
-        </Button>
-        <H1>{isOwner ? "Edit Pet" : "Pet Profile"}</H1>
+        </View>
 
         {isOwner ? (
-          <>
+          <View className="flex flex-row">
             <Button
               onPress={() => setEdit(!edit)}
               size={"icon"}
@@ -212,35 +216,35 @@ const PetProfile = () => {
                 </svg>
               </Text>
             </Button>
-          </>
+          </View>
         ) : null}
       </View>
 
       <View className="flex flex-col bg-red-400 rounded-md p-5">
-        <View className="flex items-center">
-          <Avatar alt={"avatar"} className={"h-24 w-26 rounded-md"}>
-            <AvatarImage
-              source={{
-                uri:
-                  imageUri ||
-                  "https://images.vexels.com/content/235658/preview/dog-paw-icon-emblem-04b9f2.png",
-              }}
-            />
-          </Avatar>
-          {isOwner && edit ? (
-            <>
-              <Button onPress={pickImage}>
-                <Text>Add Image</Text>
-              </Button>
-            </>
-          ) : null}
-        </View>
-
-        <View>
+        <View className="flex flex-row items-center">
+          <View className="flex items-center mx-5 mb-5">
+            <Avatar alt={"avatar"} className={"h-24 w-26 rounded-md"}>
+              <AvatarImage
+                source={{
+                  uri:
+                    imageUri ||
+                    "https://images.vexels.com/content/235658/preview/dog-paw-icon-emblem-04b9f2.png",
+                }}
+              />
+            </Avatar>
+            {isOwner && edit ? (
+              <>
+                <Button onPress={pickImage}>
+                  <Text>Add Image</Text>
+                </Button>
+              </>
+            ) : null}
+          </View>
           <Controller
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
               <Input
+                className=""
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
@@ -253,7 +257,9 @@ const PetProfile = () => {
           {errors.name && (
             <P className="text-destructive">{errors.name.message}</P>
           )}
+        </View>
 
+        <View className="gap-3 mb-5">
           <Controller
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
@@ -270,7 +276,6 @@ const PetProfile = () => {
           {errors.breed && (
             <P className="text-destructive">{errors.breed.message}</P>
           )}
-
           <Controller
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
@@ -287,7 +292,6 @@ const PetProfile = () => {
           {errors.sex && (
             <P className="text-destructive">{errors.sex.message}</P>
           )}
-
           <Controller
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
@@ -304,7 +308,6 @@ const PetProfile = () => {
           {errors.birthday && (
             <P className="text-destructive">{errors.birthday.message}</P>
           )}
-
           <Controller
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
