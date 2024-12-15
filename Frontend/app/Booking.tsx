@@ -6,21 +6,19 @@ import { Button } from '@/components/Button';
 import { H1, H3, P } from '@/components/Typography';
 import { Input } from '@/components/Input';
 import { Textarea } from '@/components/Textarea';
-import { Dropdown } from 'react-native-element-dropdown';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/Avatar';
 import DatePicker from 'react-native-date-picker';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { Controller, useForm } from 'react-hook-form';
 
-
 const FormSchema = z.object({
     date: z.string()
             .min(1, "Date is required"),
-    pets: z.string()
-            .min(1, "Please select a pet"),
+    pet: z.string()
+            .min(1, "Pet is required"),
     service: z.string()
-            .min(1, "Please select a service"),
+            .min(1, "Service is required"),
     location: z.string()
             .min(1, "Location is required"),
     description: z.string()
@@ -29,6 +27,7 @@ const FormSchema = z.object({
 
 export default function Booking() {
     const [message, setMessage] = useState('');
+    const token = '';
     const [date, setDate] = useState(new Date())
     const [open, setOpen] = useState(false)
 
@@ -38,7 +37,7 @@ export default function Booking() {
         resolver: zodResolver(FormSchema),
         defaultValues: {
             date: "",
-            pets: "", 
+            pet: "", 
             service: "",
             location: "",
             description: "",
@@ -46,13 +45,15 @@ export default function Booking() {
     });
 
     const OnSubmit = (data : z.infer<typeof FormSchema>) => {
+        const formattedDate = date.toISOString();
         const mappedData = {
-            DateOfBooking: data.date,
-            PetId: data.pets,
-            Services: data.service,
+            DateOfBooking: formattedDate,
+            PetId: data.pet,
+            Service: data.service,
             Location: data.location,
             AdditionalInfo: data.description,
         }
+
 
         axios.defaults.withCredentials = true;
         axios.post("http://localhost:5272/booking/create", mappedData)
@@ -118,32 +119,34 @@ export default function Booking() {
                     {errors.date?.message && <P className='text-sm text-destructive pt-1'>{errors.date.message}</P>}
                     <Controller
                         control={control}
-                        render={({field: {onChange, onBlur, value}}) => (
+                        render={({ field: { onChange, onBlur, value } }) => (
                             <Input
                                 onBlur={onBlur}
-                                onChangeText={value => {onChange(value); setMessage("")}}
+                                onChangeText={value => onChange(value)}
                                 value={value}
-                                placeholder={"Enter pet name"}
+                                placeholder={"Pet"}
                             />
                         )}
-                        name="pets"
-                        rules={{required: true}}
+                        name="pet"
+                        rules={{ required: true }}
                     />
-                    {errors.pets?.message && <P className='text-sm text-destructive pt-1'>{errors.pets.message}</P>}
+                    {errors.pet?.message && <P className="text-sm text-destructive pt-1">{errors.pet.message}</P>}
+
                     <Controller
                         control={control}
-                        render={({field: {onChange, onBlur, value}}) => (
+                        render={({ field: { onChange, onBlur, value } }) => (
                             <Input
                                 onBlur={onBlur}
-                                onChangeText={value => {onChange(value); setMessage("")}}
+                                onChangeText={value => onChange(value)}
                                 value={value}
-                                placeholder={"Enter a service"}
+                                placeholder={"Service"}
                             />
                         )}
                         name="service"
-                        rules={{required: true}}
+                        rules={{ required: true }}
                     />
-                    {errors.service?.message && <P className='text-sm text-destructive pt-1'>{errors.service.message}</P>}
+                    {errors.service?.message && <P className="text-sm text-destructive pt-1">{errors.service.message}</P>}
+
                     <Controller
                         control={control}
                         render={({field: {onChange, onBlur, value}}) => (
