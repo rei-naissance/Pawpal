@@ -36,7 +36,11 @@ const UserChoice = () => {
       sessionStorage.setItem("lastname", res.data.lastName);
     })
     .catch((err) => {
-      console.log(err.response.data);
+      if (err.response) {
+        console.error("Error response:", err.response);
+      } else {
+        console.error("Error message:", err.message);
+      }
     });
 
   return (

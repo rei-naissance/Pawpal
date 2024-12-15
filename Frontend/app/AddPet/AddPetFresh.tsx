@@ -8,7 +8,15 @@ import { Text } from "react-native";
 import PetCard from "@/components/CreatePetCard"; // Import the PetCard component
 
 const newUserPet = () => {
-  const [pets, setPets] = useState([]);
+  interface Pet {
+    id: { timestamp: string };
+    name: string;
+    birthday: string;
+    breed: string;
+    profilePicture: string;
+  }
+
+  const [pets, setPets] = useState<Pet[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 

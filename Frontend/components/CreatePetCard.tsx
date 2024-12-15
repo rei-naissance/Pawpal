@@ -1,7 +1,14 @@
 import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 
-const PetCard = ({ pet }) => {
+interface Pet {
+  name: string;
+  birthday: string;
+  breed: string;
+  image: string;
+}
+
+const PetCard = ({ pet }: { pet: Pet }) => {
   const imageUri = `${pet.image}`;
 
   return (
