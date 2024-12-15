@@ -19,7 +19,6 @@ const FormSchema = z.object({
 const ContactDetails = () => {
   const [message, setMessage] = useState("");
   const router = useRouter();
-
   const params = useLocalSearchParams();
 
   // get data from params
@@ -52,9 +51,13 @@ const ContactDetails = () => {
     axios
       .post("http://localhost:5272/users/register", registrationData)
       .then((res) => {
-        router.replace("/UserSetup/Choose");
+        const token = res.data.token;
+        sessionStorage.setItem("jwtToken", token);
+        router.replace("/Choice");
       })
       .catch((err) => {
+        console.log(registrationData);
+
         setMessage(err.response.data);
       });
   };
