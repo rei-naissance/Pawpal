@@ -18,7 +18,7 @@ const FormSchema = z.object({
   breed: z.string().min(1, "Please enter your pet's breed."),
   sex: z.string().min(1, "Please enter your pet's gender."),
   birthday: z.string().min(1, "Please enter your pet's birthday."),
-  description: z.string(),
+  description: z.string().min(0, "Please enter a description."),
 });
 
 const PetProfile = () => {
@@ -130,14 +130,12 @@ const PetProfile = () => {
       const petData = {
         ...data,
         profilePicture: base64Image,
-        Id: petId,
       };
 
       axios
         .put(`http://localhost:5272/pets/${petId}`, petData)
         .then((response) => {
-          console.log("Pet updated successfully", response);
-          console.log("Pet data:", petData);
+          router.back();
         })
         .catch((error) => {
           console.error("Error updating pet:", error);
@@ -147,6 +145,20 @@ const PetProfile = () => {
     } catch (error) {
       console.error("Error updating pet:", error);
       setMessage("Failed to update pet profile.");
+    }
+  };
+
+  const deletePet = async () => {
+    try {
+      await axios.delete(`http://localhost:5272/pets/${petId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      router.back();
+    } catch (error) {
+      console.error("Error deleting pet:", error);
+      setMessage("Failed to delete pet.");
     }
   };
 
@@ -187,11 +199,7 @@ const PetProfile = () => {
                 </svg>
               </Text>
             </Button>
-            <Button
-              onPress={() => router.back()}
-              size={"icon"}
-              variant={"ghost"}
-            >
+            <Button onPress={deletePet} size={"icon"} variant={"ghost"}>
               <Text>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
