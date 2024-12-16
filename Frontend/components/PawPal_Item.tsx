@@ -4,8 +4,33 @@ import {Text} from "@/components/Text";
 import {P} from "@/components/Typography"
 import {Subtitles} from "lucide-react-native";
 import {Button} from "@/components/Button";
+import { useRouter } from "expo-router";
 
-const PawPal_Item = () => {
+interface Service {
+    Id: string;
+    ServiceName: string;
+    ServiceDescription: string;
+    ServicePrice: number;
+    ServiceOwner: string;
+    ServicePicture: string;
+}
+
+const PawPal_Item = ({ service }: { service: Service }) => {
+    const router = useRouter();
+    const userId = sessionStorage.getItem("userId");
+
+    const handleBook = () => {
+        router.push({
+            pathname: '/Booking/BookingForm',
+            params: {
+                ProviderId: service.ServiceOwner,
+                RecipientId: userId,
+                ServiceOwner: service.ServiceOwner,
+                ServiceName: service.ServiceName,
+                ServicePrice: service.ServicePrice
+            }
+        });   
+    }
     return (
         <View className={"bg-white p-4 rounded-lg flex-row gap-2 justify-between items-center"}>
             <View className={"flex-row gap-3 items-center"}>
@@ -20,8 +45,8 @@ const PawPal_Item = () => {
                     </Avatar>
                 </View>
                 <View>
-                    <P className={"font-bold"}>Adrian Sajulga</P>
-                    <P className={"text-xs"}>Dog Sitter</P>
+                    <P className={"font-bold"}>{service.ServiceOwner}</P>
+                    <P className={"text-xs"}>{service.ServiceName}</P>
                     <View className={"flex-row gap-2 items-center"}>
 
                         <Image source={require("@/assets/images/star-solid.svg")} style={styles.icon}/>
@@ -36,7 +61,7 @@ const PawPal_Item = () => {
                 </View>
             </View>
             <View className={""}>
-                <Button variant={"default"} size={"sm"}><Text className={"text-xs"}>Book</Text></Button>
+                <Button variant={"default"} size={"sm"}><Text className={"text-xs"} onPress={handleBook}>Book</Text></Button>
             </View>
         </View>
     )

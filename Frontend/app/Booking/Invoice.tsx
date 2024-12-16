@@ -8,7 +8,7 @@ import axios from "axios"
 const Invoice = () => {
     const [providerName, setProviderName] = useState<string>("");
     const router = useRouter();
-    const { date, pet, service, location, description, ProviderId, RecipientId } = useLocalSearchParams();
+    const { date, pet, service, location, description, ProviderId, RecipientId, ServiceOwner, ServiceName } = useLocalSearchParams();
 
     var token = sessionStorage.getItem("jwtToken");
     console.log(token);
@@ -18,26 +18,26 @@ const Invoice = () => {
         router.replace("/Login");
     }
 
-    useEffect(() => {
-        if(ProviderId) {
-            axios.get("http://localhost:5272/users/fetch-name", {
-            })
-            .then((response) => {
-                const { FirstName, LastName } = response.data;
-                setProviderName(`${FirstName} ${LastName}`);
-            })
-            .catch((error) => {
-                console.error("Error fetching provider details:", error);
-            });
-        }
-      }, []);
+    // useEffect(() => {
+    //     if(ProviderId) {
+    //         axios.get("http://localhost:5272/users/fetch-name", {
+    //         })
+    //         .then((response) => {
+    //             const { FirstName, LastName } = response.data;
+    //             setProviderName(`${FirstName} ${LastName}`);
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error fetching provider details:", error);
+    //         });
+    //     }
+    //   }, []);
 
     return (
         <View>
             <View style={styles.container}>
                 <View className="flex-col justify-center items-center">
                     <H2 className="p-4">Successfully Booked!</H2>
-                    <H3 className="p-4">{service} with {providerName || "Provider"}</H3>
+                    <H3 className="p-4">{ServiceName} with {ServiceOwner}</H3>
                     <H3 className="p-4">{date}</H3>
                     <H3 className="p-4">{location}</H3>
                     <H3 className="p-4">{pet}</H3>

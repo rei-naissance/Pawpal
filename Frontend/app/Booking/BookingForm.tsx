@@ -30,14 +30,14 @@ export default function Booking() {
     const router = useRouter();
     const params = useLocalSearchParams();
 
-    const { ProviderId, RecipientId } = params
+    const { ProviderId, RecipientId, ServiceName, ServicePrice, ServiceOwner } = params
 
     const {register, setValue, handleSubmit, control, reset, formState: {errors}} = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
             date: "",
             pet: "", 
-            service: "",
+            service: Array.isArray(ServiceName) ? ServiceName[0] : ServiceName || "", // Apparently it's being read as an array, so you have to check for the type explicitly
             location: "",
             description: "",
         }
@@ -55,7 +55,8 @@ export default function Booking() {
         const mappedData = {
             ...data,
             ProviderId: ProviderId,
-            RecipientId: RecipientId
+            RecipientId: RecipientId,
+            ServiceOwner: ServiceOwner,
         }
 
         axios.defaults.withCredentials = true;
@@ -180,7 +181,7 @@ export default function Booking() {
                 </View>
                 <View className="flex-row justify-between mt-5">
                     <H3>Total:</H3>
-                    <H3>₱ 0.00</H3>
+                    <H3>₱ {ServicePrice}</H3>
                 </View>
             </View>
             <Button onPress={handleSubmit(OnSubmit)} variant={"secondary"} className="m-10">Confirm Booking</Button> 
