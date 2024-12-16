@@ -30,7 +30,15 @@ const Dashboard = () => {
             source={require("@/assets/images/Pawpal_Icon_Colored.svg")}
             style={styles.icon}
           />
-          <Button variant={"ghost"} onPress={() => router.push("/UserProfile/UserProfileDetails")}>
+          <Button
+            variant={"ghost"}
+            onPress={() =>
+              router.push({
+                pathname: "/UserProfile/UserProfileDetails",
+                params: { userId: sessionStorage.getItem("userId") },
+              })
+            }
+          >
             <Avatar alt={"avatar"} className={"h-12 w-12"}>
               <AvatarImage
                 source={{

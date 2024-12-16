@@ -14,6 +14,8 @@ import is from "@sindresorhus/is";
 import error = is.error;
 import * as FileSystem from "expo-file-system";
 import { Platform } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { Textarea } from "@/components/Textarea";
 
 const FormSchema = z.object({
   name: z.string().min(1, "Please enter your pet's name."),
@@ -144,9 +146,9 @@ const newPet = () => {
   };
 
   return (
-    <>
-      <View className="m-5 gap-3">
-        <View className="flex flex-row">
+    <View className="m-5 gap-3">
+      <View className="flex flex-row justify-between">
+        <View className="flex flex-row items-center gap-2">
           <Button onPress={() => router.back()} size={"icon"} variant={"ghost"}>
             <Text>
               <svg
@@ -159,164 +161,141 @@ const newPet = () => {
               </svg>
             </Text>
           </Button>
-          <H1>Add pet</H1>
+          <Text className="text-3xl font-bold">Add Pet</Text>
+        </View>
+      </View>
+
+      <View className="flex flex-col bg-red-400 rounded-xl p-5 shadow-lg">
+        <View className="flex flex-row items-center justify-between mx-2">
+          <View className="flex items-center mb-6">
+            <TouchableOpacity onPress={pickImage}>
+              <Avatar
+                alt={"avatar"}
+                className={"h-24 w-26 rounded-lg border-yellow-400 shadow-lg"}
+              >
+                <AvatarImage
+                  source={{
+                    uri:
+                      imageUri ||
+                      "https://images.vexels.com/content/235658/preview/dog-paw-icon-emblem-04b9f2.png",
+                  }}
+                />
+              </Avatar>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <Text className="text-md font-semibold text-stone-50">Name</Text>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  className="shadow-lg"
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  placeholder={"Name"}
+                />
+              )}
+              name="name"
+            />
+            {errors.name && (
+              <P className="text-destructive">{errors.name.message}</P>
+            )}
+          </View>
         </View>
 
-        <View className="flex flex-col bg-red-400 rounded-md p-5">
+        <View className="gap-3 mb-5">
           <View>
-            <View className="flex items-center">
-              <Avatar alt={"avatar"} className={"h-24 w-26 rounded-md"}>
-                {imageUri ? (
-                  <AvatarImage source={{ uri: imageUri }} />
-                ) : (
-                  <AvatarImage
-                    source={{
-                      uri: "https://images.vexels.com/content/235658/preview/dog-paw-icon-emblem-04b9f2.png",
-                    }}
-                  />
-                )}
-              </Avatar>
-              <Button onPress={pickImage}>
-                <Text>Add Image</Text>
-              </Button>
-            </View>
-
-            <View className={"flex items-end"}>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <Input
-                    onBlur={onBlur}
-                    onChangeText={(value) => {
-                      onChange(value);
-                      setMessage("");
-                    }}
-                    value={value}
-                    placeholder={"Name"}
-                  />
-                )}
-                name="name"
-                rules={{ required: true }}
-              />
-              {errors.name?.message && (
-                <P className={"text-sm text-destructive pt-1"}>
-                  {errors.name.message}
-                </P>
+            <Text className="text-md font-semibold text-stone-50">Breed</Text>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  placeholder={"Breed"}
+                />
               )}
-              <P className={"text-sm text-destructive pt-1"}>{message}</P>
-            </View>
+              name="breed"
+            />
+            {errors.breed && (
+              <P className="text-destructive">{errors.breed.message}</P>
+            )}
+          </View>
 
-            <View>
-              <View className={"flex items-end"}>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <Input
-                      onBlur={onBlur}
-                      onChangeText={(value) => {
-                        onChange(value);
-                        setMessage("");
-                      }}
-                      value={value}
-                      placeholder={"Breed"}
-                    />
-                  )}
-                  name="breed"
-                  rules={{ required: true }}
+          <View>
+            <Text className="text-md font-semibold text-stone-50">Sex</Text>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  placeholder={"Sex"}
                 />
-                {errors.breed?.message && (
-                  <P className={"text-sm text-destructive pt-1"}>
-                    {errors.breed.message}
-                  </P>
-                )}
-                <P className={"text-sm text-destructive pt-1"}>{message}</P>
-              </View>
-
-              <View className={"flex items-end"}>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <Input
-                      onBlur={onBlur}
-                      onChangeText={(value) => {
-                        onChange(value);
-                        setMessage("");
-                      }}
-                      value={value}
-                      placeholder={"Sex"}
-                    />
-                  )}
-                  name="sex"
-                  rules={{ required: true }}
-                />
-                {errors.sex?.message && (
-                  <P className={"text-sm text-destructive pt-1"}>
-                    {errors.sex.message}
-                  </P>
-                )}
-                <P className={"text-sm text-destructive pt-1"}>{message}</P>
-              </View>
-            </View>
-
-            <View className={"flex items-end"}>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <Input
-                    onBlur={onBlur}
-                    onChangeText={(value) => {
-                      onChange(value);
-                      setMessage("");
-                    }}
-                    value={value}
-                    placeholder={"Birthday"}
-                  />
-                )}
-                name="birthday"
-                rules={{ required: true }}
-              />
-              {errors.birthday?.message && (
-                <P className={"text-sm text-destructive pt-1"}>
-                  {errors.birthday.message}
-                </P>
               )}
-              <P className={"text-sm text-destructive pt-1"}>{message}</P>
-            </View>
-
-            <View>
-              <View className={"flex items-end"}>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <Input
-                      onBlur={onBlur}
-                      onChangeText={(value) => {
-                        onChange(value);
-                        setMessage("");
-                      }}
-                      value={value}
-                      placeholder={"Description"}
-                    />
-                  )}
-                  name="description"
-                  rules={{ required: true }}
+              name="sex"
+            />
+            {errors.sex && (
+              <P className="text-destructive">{errors.sex.message}</P>
+            )}
+          </View>
+          <View>
+            <Text className="text-md font-semibold text-stone-50">
+              Birthday
+            </Text>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  placeholder={"Birthday"}
                 />
-                {errors.description?.message && (
-                  <P className={"text-sm text-destructive pt-1"}>
-                    {errors.description.message}
-                  </P>
-                )}
-                <P className={"text-sm text-destructive pt-1"}>{message}</P>
-              </View>
-
-              <Button onPress={handleSubmit(onSubmit)}>
-                <Text>Add Pet</Text>
-              </Button>
-            </View>
+              )}
+              name="birthday"
+            />
+            {errors.birthday && (
+              <P className="text-destructive">{errors.birthday.message}</P>
+            )}
+          </View>
+          <View>
+            <Text className="text-md font-semibold text-stone-50">
+              Description
+            </Text>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Textarea
+                  className="shadow-lg"
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  placeholder={"Description"}
+                />
+              )}
+              name="description"
+            />
+            {errors.description && (
+              <P className="text-destructive">{errors.description.message}</P>
+            )}
           </View>
         </View>
       </View>
-    </>
+
+      <View className="flex items-end">
+        <Button
+          className="w-1/3"
+          variant={"secondary"}
+          onPress={handleSubmit(onSubmit)}
+        >
+          <Text className="font-semibold text-stone-50">Add pet</Text>
+        </Button>
+      </View>
+    </View>
   );
 };
 

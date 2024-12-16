@@ -12,6 +12,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import * as FileSystem from "expo-file-system";
 import { Platform } from "react-native";
+import { TouchableOpacity } from "react-native";
+import { Textarea } from "@/components/Textarea";
 
 const FormSchema = z.object({
   name: z.string().min(1, "Please enter your pet's name."),
@@ -163,178 +165,209 @@ const PetProfile = () => {
   };
 
   return (
-    <View className="m-5 gap-3">
-      <View className="flex flex-row justify-between">
-        <View className="flex flex-row items-center">
-          <Button onPress={() => router.back()} size={"icon"} variant={"ghost"}>
-            <Text>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 512 512"
-                height={35}
-                fill={"#C7263E"}
-              >
-                <path d="M512 256A256 256 0 1 0 0 256a256 256 0 1 0 512 0zM271 135c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-87 87 87 87c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0L167 273c-9.4-9.4-9.4-24.6 0-33.9L271 135z" />
-              </svg>
-            </Text>
-          </Button>
-          <Text className="text-3xl font-bold">
-            {isOwner ? "Edit Pet" : "Pet Profile"}
-          </Text>
-        </View>
-
-        {isOwner ? (
-          <View className="flex flex-row">
+    <>
+      <View className="m-5 gap-3">
+        <View className="flex flex-row justify-between">
+          <View className="flex flex-row items-center gap-2">
             <Button
-              onPress={() => setEdit(!edit)}
+              onPress={() => router.back()}
               size={"icon"}
               variant={"ghost"}
             >
               <Text>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="bi bi-pencil-square"
-                  height={30}
+                  viewBox="0 0 512 512"
+                  height={35}
                   fill={"#C7263E"}
-                  viewBox="0 0 16 16"
                 >
-                  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                  <path d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                  <path d="M512 256A256 256 0 1 0 0 256a256 256 0 1 0 512 0zM271 135c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-87 87 87 87c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0L167 273c-9.4-9.4-9.4-24.6 0-33.9L271 135z" />
                 </svg>
               </Text>
             </Button>
-            <Button onPress={deletePet} size={"icon"} variant={"ghost"}>
-              <Text>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height={30}
-                  fill={"#C7263E"}
-                  className="bi bi-trash3"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
-                </svg>
-              </Text>
-            </Button>
+            <Text className="text-3xl font-bold">
+              {isOwner && edit ? "Edit Pet" : "Pet Profile"}
+            </Text>
           </View>
-        ) : null}
-      </View>
 
-      <View className="flex flex-col bg-red-400 rounded-md p-5">
-        <View className="flex flex-row items-center">
-          <View className="flex items-center mx-5 mb-5">
-            <Avatar alt={"avatar"} className={"h-24 w-26 rounded-md"}>
-              <AvatarImage
-                source={{
-                  uri:
-                    imageUri ||
-                    "https://images.vexels.com/content/235658/preview/dog-paw-icon-emblem-04b9f2.png",
-                }}
-              />
-            </Avatar>
-            {isOwner && edit ? (
-              <>
-                <Button onPress={pickImage}>
-                  <Text>Add Image</Text>
-                </Button>
-              </>
-            ) : null}
-          </View>
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                className=""
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                placeholder={"Name"}
-                editable={isOwner && edit}
-              />
-            )}
-            name="name"
-          />
-          {errors.name && (
-            <P className="text-destructive">{errors.name.message}</P>
-          )}
+          {isOwner ? (
+            <View className="flex flex-row">
+              <Button
+                onPress={() => setEdit(!edit)}
+                size={"icon"}
+                variant={"ghost"}
+              >
+                <Text>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="bi bi-pencil-square"
+                    height={30}
+                    fill={"#C7263E"}
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                    <path d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                  </svg>
+                </Text>
+              </Button>
+              <Button onPress={deletePet} size={"icon"} variant={"ghost"}>
+                <Text>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height={30}
+                    fill={"#C7263E"}
+                    className="bi bi-trash3"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
+                  </svg>
+                </Text>
+              </Button>
+            </View>
+          ) : null}
         </View>
 
-        <View className="gap-3 mb-5">
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                placeholder={"Breed"}
-                editable={isOwner && edit}
+        <View className="flex flex-col bg-red-400 rounded-xl p-5 shadow-lg">
+          <View className="flex flex-row items-center justify-between mx-2">
+            <View className="flex items-center mb-6">
+              <TouchableOpacity
+                onPress={isOwner && edit ? pickImage : undefined}
+              >
+                <Avatar
+                  alt={"avatar"}
+                  className={"h-24 w-26 rounded-lg border-yellow-400 shadow-lg"}
+                >
+                  <AvatarImage
+                    source={{
+                      uri:
+                        imageUri ||
+                        "https://images.vexels.com/content/235658/preview/dog-paw-icon-emblem-04b9f2.png",
+                    }}
+                  />
+                </Avatar>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text className="text-md font-semibold text-stone-50">Name</Text>
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <Input
+                    className="shadow-lg"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                    placeholder={"Name"}
+                    editable={isOwner && edit}
+                  />
+                )}
+                name="name"
               />
-            )}
-            name="breed"
-          />
-          {errors.breed && (
-            <P className="text-destructive">{errors.breed.message}</P>
-          )}
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                placeholder={"Sex"}
-                editable={isOwner && edit}
+              {errors.name && (
+                <P className="text-destructive">{errors.name.message}</P>
+              )}
+            </View>
+          </View>
+
+          <View className="gap-3 mb-5">
+            <View>
+              <Text className="text-md font-semibold text-stone-50">Breed</Text>
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <Input
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                    placeholder={"Breed"}
+                    editable={isOwner && edit}
+                  />
+                )}
+                name="breed"
               />
-            )}
-            name="sex"
-          />
-          {errors.sex && (
-            <P className="text-destructive">{errors.sex.message}</P>
-          )}
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                placeholder={"Birthday"}
-                editable={isOwner && edit}
+              {errors.breed && (
+                <P className="text-destructive">{errors.breed.message}</P>
+              )}
+            </View>
+
+            <View>
+              <Text className="text-md font-semibold text-stone-50">Sex</Text>
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <Input
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                    placeholder={"Sex"}
+                    editable={isOwner && edit}
+                  />
+                )}
+                name="sex"
               />
-            )}
-            name="birthday"
-          />
-          {errors.birthday && (
-            <P className="text-destructive">{errors.birthday.message}</P>
-          )}
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                placeholder={"Description"}
-                editable={isOwner && edit}
+              {errors.sex && (
+                <P className="text-destructive">{errors.sex.message}</P>
+              )}
+            </View>
+            <View>
+              <Text className="text-md font-semibold text-stone-50">
+                Birthday
+              </Text>
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <Input
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                    placeholder={"Birthday"}
+                    editable={isOwner && edit}
+                  />
+                )}
+                name="birthday"
               />
-            )}
-            name="description"
-          />
-          {errors.description && (
-            <P className="text-destructive">{errors.description.message}</P>
-          )}
+              {errors.birthday && (
+                <P className="text-destructive">{errors.birthday.message}</P>
+              )}
+            </View>
+            <View>
+              <Text className="text-md font-semibold text-stone-50">
+                Description
+              </Text>
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <Textarea
+                    className="shadow-lg h-24"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                    placeholder={"Description"}
+                    editable={isOwner && edit}
+                  />
+                )}
+                name="description"
+              />
+              {errors.description && (
+                <P className="text-destructive">{errors.description.message}</P>
+              )}
+            </View>
+          </View>
         </View>
 
         {isOwner && edit ? (
-          <>
-            <Button onPress={handleSubmit(onSubmit)}>
-              <Text>Save</Text>
+          <View className="flex items-end">
+            <Button
+              className="w-1/3 rounded-2xl"
+              variant={"secondary"}
+              onPress={handleSubmit(onSubmit)}
+            >
+              <Text className="font-semibold text-stone-50">Save</Text>
             </Button>
-          </>
+          </View>
         ) : null}
       </View>
-    </View>
+    </>
   );
 };
 

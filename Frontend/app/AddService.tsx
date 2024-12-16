@@ -14,6 +14,8 @@ import is from "@sindresorhus/is";
 import error = is.error;
 import * as FileSystem from "expo-file-system";
 import { Platform } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { Textarea } from "@/components/Textarea";
 
 const FormSchema = z.object({
   name: z.string().min(1, "Please enter a valid name."),
@@ -141,9 +143,9 @@ const AddService = () => {
   };
 
   return (
-    <>
-      <View className="m-5 gap-3">
-        <View className="flex flex-row">
+    <View className="m-5 gap-3">
+      <View className="flex flex-row justify-between">
+        <View className="flex flex-row items-center gap-2">
           <Button onPress={() => router.back()} size={"icon"} variant={"ghost"}>
             <Text>
               <svg
@@ -156,115 +158,102 @@ const AddService = () => {
               </svg>
             </Text>
           </Button>
-          <H1>Add Service</H1>
+          <Text className="text-3xl font-bold">Add service</Text>
+        </View>
+      </View>
+
+      <View className="flex flex-col bg-red-400 rounded-xl p-5 shadow-lg">
+        <View className="flex flex-row items-center justify-between mx-2">
+          <View className="flex items-center mb-6">
+            <TouchableOpacity onPress={pickImage}>
+              <Avatar
+                alt={"avatar"}
+                className={"h-24 w-26 rounded-lg border-yellow-400 shadow-lg"}
+              >
+                <AvatarImage
+                  source={{
+                    uri:
+                      imageUri ||
+                      "https://images.vexels.com/content/235658/preview/dog-paw-icon-emblem-04b9f2.png",
+                  }}
+                />
+              </Avatar>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <Text className="text-md font-semibold text-stone-50">Name</Text>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  className="shadow-lg"
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  placeholder={"Name"}
+                />
+              )}
+              name="name"
+            />
+            {errors.name && (
+              <P className="text-destructive">{errors.name.message}</P>
+            )}
+          </View>
         </View>
 
-        <View className="flex flex-col bg-red-400 rounded-md p-5">
+        <View className="gap-3 mb-5">
           <View>
-            <View className="flex items-center">
-              <Avatar alt={"avatar"} className={"h-24 w-26 rounded-md"}>
-                {imageUri ? (
-                  <AvatarImage source={{ uri: imageUri }} />
-                ) : (
-                  <AvatarImage
-                    source={{
-                      uri: "https://icons.veryicon.com/png/o/animal/pet-icon/dog-24.png",
-                    }}
-                  />
-                )}
-              </Avatar>
-              <Button onPress={pickImage}>
-                <Text>Add Image</Text>
-              </Button>
-            </View>
-
-            <View className={"flex items-end"}>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <Input
-                    onBlur={onBlur}
-                    onChangeText={(value) => {
-                      onChange(value);
-                      setMessage("");
-                    }}
-                    value={value}
-                    placeholder={"Name"}
-                  />
-                )}
-                name="name"
-                rules={{ required: true }}
-              />
-              {errors.name?.message && (
-                <P className={"text-sm text-destructive pt-1"}>
-                  {errors.name.message}
-                </P>
-              )}
-              <P className={"text-sm text-destructive pt-1"}>{message}</P>
-            </View>
-
-            <View className={"flex items-end"}>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <Input
-                    onBlur={onBlur}
-                    onChangeText={(value) => {
-                      const numericValue = value.replace(/[^0-9.]/g, "");
-                      onChange(numericValue);
-                      setMessage("");
-                    }}
-                    value={value?.toString()}
-                    placeholder={"Price"}
-                    keyboardType="numeric" // Opens a numeric keypad
-                    inputMode="numeric" // Helps on certain platforms (e.g., web)
-                  />
-                )}
-                name="price"
-                rules={{ required: true }}
-              />
-              {errors.price?.message && (
-                <P className={"text-sm text-destructive pt-1"}>
-                  {errors.price.message}
-                </P>
-              )}
-              <P className={"text-sm text-destructive pt-1"}>{message}</P>
-            </View>
-
-            <View>
-              <View className={"flex items-end"}>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <Input
-                      onBlur={onBlur}
-                      onChangeText={(value) => {
-                        onChange(value);
-                        setMessage("");
-                      }}
-                      value={value}
-                      placeholder={"Description"}
-                    />
-                  )}
-                  name="description"
-                  rules={{ required: true }}
+            <Text className="text-md font-semibold text-stone-50">Price</Text>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  placeholder={"Price"}
                 />
-                {errors.description?.message && (
-                  <P className={"text-sm text-destructive pt-1"}>
-                    {errors.description.message}
-                  </P>
-                )}
-                <P className={"text-sm text-destructive pt-1"}>{message}</P>
-              </View>
-
-              <Button onPress={handleSubmit(onSubmit)}>
-                <Text>Add Service</Text>
-              </Button>
-            </View>
+              )}
+              name="price"
+            />
+            {errors.price && (
+              <P className="text-destructive">{errors.price.message}</P>
+            )}
+          </View>
+          <View>
+            <Text className="text-md font-semibold text-stone-50">
+              Description
+            </Text>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Textarea
+                  className="shadow-lg"
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  placeholder={"Description"}
+                />
+              )}
+              name="description"
+            />
+            {errors.description && (
+              <P className="text-destructive">{errors.description.message}</P>
+            )}
           </View>
         </View>
       </View>
-    </>
+
+      <View className="flex items-end">
+        <Button
+          className="w-1/3"
+          variant={"secondary"}
+          onPress={handleSubmit(onSubmit)}
+        >
+          <Text className="font-semibold text-stone-50">Add service</Text>
+        </Button>
+      </View>
+    </View>
   );
 };
 
