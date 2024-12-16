@@ -21,6 +21,7 @@ const PawPal_Item = ({service} : { service: Service }) => {
     const router = useRouter();
     const userId = sessionStorage.getItem("userId");
     const [name, setName] = useState("");
+    const [profilePicture, setProfilePicture] = useState<string | null>(null);
 
     const handleBook = () => {
         router.push({
@@ -30,7 +31,8 @@ const PawPal_Item = ({service} : { service: Service }) => {
                 RecipientId: userId,
                 ServiceOwner: service.serviceOwner,
                 ServiceName: service.serviceName,
-                ServicePrice: service.servicePrice
+                ServicePrice: service.servicePrice,
+                ProfilePicture: profilePicture
             }
         });   
     }
@@ -41,6 +43,9 @@ const PawPal_Item = ({service} : { service: Service }) => {
                 .then((res) => {
                     console.log(res);
                     setName(res.data.firstName + " " + res.data.lastName);
+                    if (res.data.ProfilePicture) {
+                        setProfilePicture(`data:image/jpeg;base64,${res.data.ProfilePicture}`);
+                    }
                 }).catch((err) => {
                     console.error("Error getting user:", err);
             })
@@ -51,13 +56,14 @@ const PawPal_Item = ({service} : { service: Service }) => {
         <View className={"bg-white p-4 rounded-lg flex-row gap-2 justify-between items-center"}>
             <View className={"flex-row gap-3 items-center"}>
                 <View>
-                    <Avatar alt={""} className={"h-12 w-12"}>
-                        <AvatarImage
-                            source={{uri: "https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg",}}
-                        />
-                        <AvatarFallback>
-                            <Text>P</Text>
-                        </AvatarFallback>
+                    <Avatar alt={"avatar"} className={"h-12 w-12"}>
+                        {profilePicture ? (
+                            <AvatarImage source={{ uri: profilePicture }} />
+                        ):(
+                            <AvatarFallback>
+                            <Text>{name.charAt(0)}</Text>
+                            </AvatarFallback>
+                        )}
                     </Avatar>
                 </View>
                 <View>

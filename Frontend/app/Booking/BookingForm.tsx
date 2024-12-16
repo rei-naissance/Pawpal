@@ -31,7 +31,7 @@ export default function Booking() {
     const router = useRouter();
     const params = useLocalSearchParams();
 
-    const { ProviderId, RecipientId, ServiceName, ServicePrice, ServiceOwner } = params
+    const { ProviderId, RecipientId, ServiceName, ServicePrice, ServiceOwner, ProfilePicture } = params
 
     const {register, setValue, handleSubmit, control, reset, formState: {errors}} = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -102,13 +102,15 @@ export default function Booking() {
             </View>
             <View className='flex-row justify-center gap-5 p-5 bg-primary' style={styles.pawpalContainer}>
                 <View className='flex items-center justify-center'>
-                    <Avatar alt={"avatar"} className={"h-24 w-24"} >
-                        <AvatarImage
-                            source={{uri: "https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg",}}
-                        />
-                        <AvatarFallback>
-                            <Text>P</Text>
-                        </AvatarFallback>
+                    <Avatar alt={"avatar"} className={"h-24 w-24"}>
+                        {ProfilePicture ? (
+                            // readability down the drain
+                            <AvatarImage source={{ uri: Array.isArray(ProfilePicture) ? ProfilePicture[0] : ProfilePicture }} />
+                        ):(
+                            <AvatarFallback>
+                            <Text>{name.charAt(0)}</Text>
+                            </AvatarFallback>
+                        )}
                     </Avatar>
                 </View>
                 <View className='items-center gap-2'>
