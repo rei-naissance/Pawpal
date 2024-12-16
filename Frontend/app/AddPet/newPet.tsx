@@ -161,11 +161,11 @@ const newPet = () => {
               </svg>
             </Text>
           </Button>
-          <Text className="text-3xl font-bold">Add Pet</Text>
+          <Text className="text-3xl font-bold">Add a Pet</Text>
         </View>
       </View>
 
-      <View className="flex flex-col bg-red-400 rounded-xl p-5 shadow-lg">
+      <View className="flex flex-col rounded-xl p-5">
         <View className="flex flex-row items-center justify-between mx-2">
           <View className="flex items-center mb-6">
             <TouchableOpacity onPress={pickImage}>
@@ -292,7 +292,7 @@ const newPet = () => {
           variant={"secondary"}
           onPress={handleSubmit(onSubmit)}
         >
-          <Text className="font-semibold text-stone-50">Add pet</Text>
+          <Text className="font-semibold text-stone-50">Add Pet</Text>
         </Button>
       </View>
     </View>

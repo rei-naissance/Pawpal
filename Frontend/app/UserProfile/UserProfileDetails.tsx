@@ -49,6 +49,7 @@ const UserProfile = () => {
     control,
     handleSubmit,
     setValue,
+      getValues,
     formState: { errors },
   } = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -219,9 +220,9 @@ const UserProfile = () => {
             </Avatar>
           </TouchableOpacity>
         </View>
-        <H1>{firstname}</H1>
-        {/* <H1 className="mt-2">{user.firstName + " " + user.lastName}</H1>
-        <P className="text-center mt-2">{user.bio}</P> */}
+        {/*<H1>{getValues("firstname")}</H1>*/}
+        <H1 className="mt-2">{getValues("firstname") + " " + getValues("lastname")}</H1>
+        <P className="text-center mt-2">{getValues("bio")}</P>
       </View>
     </ScrollView>
   );

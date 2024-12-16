@@ -20,11 +20,6 @@ const UserDashboard_Layout = () => {
                     <TabBarIcon name={focused ? 'search' : 'search-outline'} color={color}></TabBarIcon>
                 )
             }} />
-            <Tabs.Screen name="Messages" options={{
-                tabBarIcon: ({color, focused}) => (
-                    <TabBarIcon name={focused ? 'chatbox-ellipses' : 'chatbox-ellipses-outline'} color={color}></TabBarIcon>
-                )
-            }} />
             <Tabs.Screen name="Bookings" options={{
                 tabBarIcon: ({color, focused}) => (
                     <TabBarIcon name={focused ? 'calendar' : 'calendar-outline'} color={color}></TabBarIcon>
