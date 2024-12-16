@@ -15,12 +15,31 @@ import { useRouter } from "expo-router";
 
 const Dashboard = () => {
   //   const { userToken } = useContext(AuthContext);
+  const [profilePicture, setProfilePicture] = useState<string | null>(null);
+  const [firstName, setFirstName] = useState("User");
   const userToken = sessionStorage.getItem("jwtToken");
+  const userId = sessionStorage.getItem("userId");
   const router = useRouter();
 
-  if (userToken == null) {
-    router.replace("/Login");
-  }
+  useEffect(() => {
+    if (userToken) {
+      axios.get(`http://localhost:5272/users/${userId}`, {
+          headers: { Authorization: `Bearer ${userToken}` },
+        })
+        .then((response) => {
+          const { FirstName, ProfilePicture } = response.data;
+          setFirstName(FirstName || "User");
+          if (ProfilePicture) {
+            setProfilePicture(`data:image/jpeg;base64,${ProfilePicture}`);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching user details:", error);
+        });
+    } else {
+      router.replace("/Login");
+    }
+  }, [userToken, userId]);
 
   return (
     <ScrollView>
@@ -35,19 +54,18 @@ const Dashboard = () => {
             onPress={() =>
               router.push({
                 pathname: "/UserProfile/UserProfileDetails",
-                params: { userId: sessionStorage.getItem("userId") },
+                params: { userId: userId },
               })
             }
           >
             <Avatar alt={"avatar"} className={"h-12 w-12"}>
-              <AvatarImage
-                source={{
-                  uri: "https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg",
-                }}
-              />
-              <AvatarFallback>
-                <Text>P</Text>
-              </AvatarFallback>
+              {profilePicture ? (
+                <AvatarImage source={{ uri: profilePicture }} />
+              ):(
+                <AvatarFallback>
+                  <Text>{firstName.charAt(0)}</Text>
+                </AvatarFallback>
+              )}
             </Avatar>
           </Button>
         </View>
