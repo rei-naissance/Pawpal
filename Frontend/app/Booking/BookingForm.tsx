@@ -55,6 +55,10 @@ export default function Booking() {
     const OnSubmit = (data : z.infer<typeof FormSchema>) => {
         const mappedData = {
             ...data,
+            dateOfBooking: data.date,
+            AdditionalInformation: data.description,
+            TotalPrice: ServicePrice,
+            PetName: data.pet,
             ProviderId: ProviderId,
             RecipientId: RecipientId,
             ServiceOwner: ServiceOwner,
