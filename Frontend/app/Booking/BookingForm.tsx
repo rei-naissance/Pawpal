@@ -45,7 +45,7 @@ export default function Booking() {
     });
 
     var token = sessionStorage.getItem("jwtToken");
-    console.log(token);
+    // console.log(token);
 
     // if token is not present, redirect to login
     if (token == null) {
@@ -58,6 +58,7 @@ export default function Booking() {
             ProviderId: ProviderId,
             RecipientId: RecipientId,
             ServiceOwner: ServiceOwner,
+            ServiceName: ServiceName,
         }
 
         axios.defaults.withCredentials = true;
@@ -80,7 +81,6 @@ export default function Booking() {
         const getUser = async () => {
             axios.get(`http://localhost:5272/user/${ServiceOwner}`)
                 .then((res) => {
-                    console.log(res);
                     setName(res.data.firstName + " " + res.data.lastName);
                 }).catch((err) => {
                 console.error("Error getting user:", err);
@@ -92,7 +92,7 @@ export default function Booking() {
     return (
         <View className={"m-5"}>
             <View className="flex-row items-center mb-5 gap-2">
-                <Button className={""} onPress={() => router.push("/Bookings")} size={"icon"} variant={"ghost"}>
+                <Button className={""} onPress={() => router.back()} size={"icon"} variant={"ghost"}>
                     <Text>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height={35} fill={"#C7263E"}>
                             <path d="M512 256A256 256 0 1 0 0 256a256 256 0 1 0 512 0zM271 135c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-87 87 87 87c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0L167 273c-9.4-9.4-9.4-24.6 0-33.9L271 135z"/></svg>
@@ -117,7 +117,7 @@ export default function Booking() {
                     <H3 className={"text-primary-foreground"}>{name}</H3>
                     <View className={"flex-row gap-2"}>
                         <Button variant={"secondary"} onPress={() => router.push("/ServiceProfile")} size={"sm"}><Text>View Profile</Text></Button>
-                        <Button variant={"secondary"} size={"sm"}><Text>Chat Pawpal</Text></Button>
+                        {/*<Button variant={"secondary"} size={"sm"}><Text>Chat Pawpal</Text></Button>*/}
                     </View>
                 </View>
             </View>

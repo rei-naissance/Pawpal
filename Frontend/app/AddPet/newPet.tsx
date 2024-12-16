@@ -166,12 +166,12 @@ const newPet = () => {
       </View>
 
       <View className="flex flex-col rounded-xl p-5">
-        <View className="flex flex-row items-center justify-between mx-2">
+        <View className="flex flex-row items-center justify-between">
           <View className="flex items-center mb-6">
             <TouchableOpacity onPress={pickImage}>
               <Avatar
                 alt={"avatar"}
-                className={"h-24 w-26 rounded-lg border-yellow-400 shadow-lg"}
+                className={"h-24 w-26 rounded-lg"}
               >
                 <AvatarImage
                   source={{
@@ -184,12 +184,11 @@ const newPet = () => {
             </TouchableOpacity>
           </View>
           <View>
-            <Text className="text-md font-semibold text-stone-50">Name</Text>
+            <Text className="text-md font-semibold">Name</Text>
             <Controller
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Input
-                  className="shadow-lg"
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
@@ -206,7 +205,7 @@ const newPet = () => {
 
         <View className="gap-3 mb-5">
           <View>
-            <Text className="text-md font-semibold text-stone-50">Breed</Text>
+            <Text className="text-md font-semibold">Breed</Text>
             <Controller
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (
@@ -225,7 +224,7 @@ const newPet = () => {
           </View>
 
           <View>
-            <Text className="text-md font-semibold text-stone-50">Sex</Text>
+            <Text className="text-md font-semibold">Sex</Text>
             <Controller
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (
@@ -243,7 +242,7 @@ const newPet = () => {
             )}
           </View>
           <View>
-            <Text className="text-md font-semibold text-stone-50">
+            <Text className="text-md font-semibold">
               Birthday
             </Text>
             <Controller
@@ -263,14 +262,13 @@ const newPet = () => {
             )}
           </View>
           <View>
-            <Text className="text-md font-semibold text-stone-50">
+            <Text className="text-md font-semibold">
               Description
             </Text>
             <Controller
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Textarea
-                  className="shadow-lg"
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
@@ -292,7 +290,7 @@ const newPet = () => {
           variant={"secondary"}
           onPress={handleSubmit(onSubmit)}
         >
-          <Text className="font-semibold text-stone-50">Add Pet</Text>
+          <Text className="font-semibold">Add Pet</Text>
         </Button>
       </View>
     </View>

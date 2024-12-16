@@ -41,7 +41,6 @@ const PawPal_Item = ({service} : { service: Service }) => {
         const getUser = async () => {
             axios.get(`http://localhost:5272/user/${service.serviceOwner}`)
                 .then((res) => {
-                    console.log(res);
                     setName(res.data.firstName + " " + res.data.lastName);
                     if (res.data.ProfilePicture) {
                         setProfilePicture(`data:image/jpeg;base64,${res.data.ProfilePicture}`);

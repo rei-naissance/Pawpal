@@ -66,7 +66,7 @@ const PetsBox = () => {
                 })
               }
             >
-              <Avatar key={pet.id} alt={"avatar"} className={"h-12 w-12"}>
+              <Avatar key={pet.id} alt={"avatar"} className={"h-12 w-12 rounded-lg"}>
                 <AvatarImage
                   source={{
                     uri: pet.profilePicture,
