@@ -14,6 +14,7 @@ import * as FileSystem from "expo-file-system";
 import { Platform } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { Textarea } from "@/components/Textarea";
+import { Control } from "react-hook-form";
 
 const FormSchema = z.object({
   name: z.string().min(1, "Please enter your pet's name."),
