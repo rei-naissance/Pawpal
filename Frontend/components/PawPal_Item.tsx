@@ -5,6 +5,8 @@ import {P} from "@/components/Typography"
 import {Subtitles} from "lucide-react-native";
 import {Button} from "@/components/Button";
 import { useRouter } from "expo-router";
+import {useEffect, useState} from "react";
+import axios from "axios";
 
 interface Service {
     id: string;
@@ -18,6 +20,7 @@ interface Service {
 const PawPal_Item = ({service} : { service: Service }) => {
     const router = useRouter();
     const userId = sessionStorage.getItem("userId");
+    const [name, setName] = useState("");
 
     const handleBook = () => {
         router.push({
@@ -31,6 +34,19 @@ const PawPal_Item = ({service} : { service: Service }) => {
             }
         });   
     }
+
+    useEffect(() => {
+        const getUser = async () => {
+            axios.get(`http://localhost:5272/user/${service.serviceOwner}`)
+                .then((res) => {
+                    console.log(res);
+                    setName(res.data.firstName + " " + res.data.lastName);
+                }).catch((err) => {
+                    console.error("Error getting user:", err);
+            })
+        }
+        getUser();
+    }, []);
     return (
         <View className={"bg-white p-4 rounded-lg flex-row gap-2 justify-between items-center"}>
             <View className={"flex-row gap-3 items-center"}>
@@ -45,8 +61,8 @@ const PawPal_Item = ({service} : { service: Service }) => {
                     </Avatar>
                 </View>
                 <View>
-                    <P className={"font-bold"}>{service.serviceName}</P>
-                    <P className={"text-xs"}>{service.serviceDescription}</P>
+                    <P className={"font-bold"}>{name}</P>
+                    <P className={"text-xs"}>{service.serviceName}</P>
                     <View className={"flex-row gap-2 items-center"}>
 
                         <Image source={require("@/assets/images/star-solid.svg")} style={styles.icon}/>

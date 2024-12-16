@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { map, z } from 'zod';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import { Button } from '@/components/Button';
 import { H1, H3, P } from '@/components/Typography';
 import { Input } from '@/components/Input';
@@ -27,6 +27,7 @@ const FormSchema = z.object({
 
 export default function Booking() {
     const [message, setMessage] = useState('');
+    const [name, setName] = useState('');
     const router = useRouter();
     const params = useLocalSearchParams();
 
@@ -70,22 +71,36 @@ export default function Booking() {
                 });
             })
             .catch((err) => {
+                console.log(err)
                 setMessage("Please check input fields.");
             })
     }
 
+    useEffect(() => {
+        const getUser = async () => {
+            axios.get(`http://localhost:5272/user/${ServiceOwner}`)
+                .then((res) => {
+                    console.log(res);
+                    setName(res.data.firstName + " " + res.data.lastName);
+                }).catch((err) => {
+                console.error("Error getting user:", err);
+            })
+        }
+        getUser();
+    }, []);
+
     return (
-        <>
-            <View className="flex-row justify-between items-center m-5">
-                <H1>Find a Pawpal</H1>
-                <Button className={"m-5"} onPress={() => router.push("/Bookings")} size={"icon"} variant={"ghost"}>
+        <View className={"m-5"}>
+            <View className="flex-row items-center mb-5 gap-2">
+                <Button className={""} onPress={() => router.push("/Bookings")} size={"icon"} variant={"ghost"}>
                     <Text>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height={35} fill={"#C7263E"}>
                             <path d="M512 256A256 256 0 1 0 0 256a256 256 0 1 0 512 0zM271 135c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-87 87 87 87c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0L167 273c-9.4-9.4-9.4-24.6 0-33.9L271 135z"/></svg>
                     </Text>
                 </Button>
+                <H1>Find a Pawpal</H1>
             </View>
-            <View className='flex-row justify-between mx-10 px-10 my-0' style={styles.pawpalContainer}>
+            <View className='flex-row justify-center gap-5 p-5 bg-primary' style={styles.pawpalContainer}>
                 <View className='flex items-center justify-center'>
                     <Avatar alt={"avatar"} className={"h-24 w-24"} >
                         <AvatarImage
@@ -97,9 +112,11 @@ export default function Booking() {
                     </Avatar>
                 </View>
                 <View className='items-center gap-2'>
-                    <H3>Adrian Sajulga</H3>
-                    <Button className="px-10" variant={"secondary"} onPress={() => router.push("/ServiceProfile")}>View Profile</Button>
-                    <Button className="px-10" variant={"secondary"}>Chat Pawpal</Button>
+                    <H3 className={"text-primary-foreground"}>{name}</H3>
+                    <View className={"flex-row gap-2"}>
+                        <Button variant={"secondary"} onPress={() => router.push("/ServiceProfile")} size={"sm"}><Text>View Profile</Text></Button>
+                        <Button variant={"secondary"} size={"sm"}><Text>Chat Pawpal</Text></Button>
+                    </View>
                 </View>
             </View>
             <View style={styles.container}>
@@ -179,26 +196,25 @@ export default function Booking() {
                     />
                     {errors.description?.message && <P className='text-sm text-destructive pt-1'>{errors.description.message}</P>}
                 </View>
-                <View className="flex-row justify-between mt-5">
+                <View className="flex-row justify-end gap-5 it mt-5">
                     <H3>Total:</H3>
-                    <H3>₱ {ServicePrice}</H3>
+                    <H3 className={"text-3xl text-primary font-black"}>₱{ServicePrice}</H3>
                 </View>
             </View>
-            <Button onPress={handleSubmit(OnSubmit)} variant={"secondary"} className="m-10">Confirm Booking</Button> 
-        </>
+            <Button onPress={handleSubmit(OnSubmit)} variant={"secondary"} size={"lg"} className="m-10"><Text>Book PawPal</Text></Button>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     container : {
         flex: 1,
-        margin: 50,
+        margin: 30,
     },
     pawpalContainer : {
-        backgroundColor: "#C7253E",
         justifyContent: "center",
         alignItems: "center",
-        padding: 10,
         borderRadius: 10,
+        margin: 7,
     }
 })
