@@ -12,9 +12,9 @@ const RecentPawPals = () => {
                 <Button variant={"secondary"} size={"sm"}><Text>See All</Text></Button>
             </View>
             <View className={"gap-2 my-2"}>
-                <PawPal_Item/>
-                <PawPal_Item/>
-                <PawPal_Item/>
+                {/*<PawPal_Item/>*/}
+                {/*<PawPal_Item/>*/}
+                {/*<PawPal_Item/>*/}
             </View>
         </View>
     )

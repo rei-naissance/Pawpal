@@ -1,16 +1,15 @@
-import {View} from "react-native";
+import {View, ScrollView} from "react-native";
 import PawPal_Item from "@/components/PawPal_Item";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { ScrollView } from "react-native-reanimated/lib/typescript/Animated";
 
 interface Service {
-    Id: string;
-    ServiceName: string;
-    ServiceDescription: string;
-    ServicePrice: number;
-    ServiceOwner: string;
-    ServicePicture: string;
+    id: string;
+    serviceName: string;
+    serviceDescription: string;
+    servicePrice: number;
+    serviceOwner: string;
+    servicePicture: string;
 }
 
 const PawPalList = () => {
@@ -29,11 +28,14 @@ const PawPalList = () => {
     }, []);
 
     return (
-        <View className={"rounded-lg gap-2"}>
+        <View className={"rounded-lg"}>
             <ScrollView>
-                {services.map((service) => (
-                    <PawPal_Item key={service.Id} service={service}/>
-                ))}
+                <View className={"gap-2"}>
+                    {services && services.map((service, i) => (
+                        <PawPal_Item key={i} service={service}/>
+                    ))}
+                    {!services && <></>}
+                </View>
             </ScrollView>
         </View>
     )

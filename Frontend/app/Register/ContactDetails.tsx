@@ -3,7 +3,7 @@ import { Button } from "@/components/Button";
 import { useNavigation, useRouter, useLocalSearchParams } from "expo-router";
 import { H1, P } from "@/components/Typography";
 import { View, Image, StyleSheet } from "react-native";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Input } from "@/components/Input";
 import { z } from "zod";
@@ -73,8 +73,8 @@ const ContactDetails = () => {
   };
 
   return (
-    <>
-      <View className="flex flex-row m-5">
+    <View className={"m-5 gap-2"}>
+      <View className="flex flex-row">
         <Button onPress={() => router.back()} size={"icon"} variant={"ghost"}>
           <Text>
             <svg
@@ -88,13 +88,17 @@ const ContactDetails = () => {
           </Text>
         </Button>
 
-        <H1>Register</H1>
       </View>
 
-      <View className="m-5">
+      <View>
+        <H1>Register</H1>
+        <P>Create your free account today.</P>
+      </View>
+
+      <View className="">
         <View></View>
         <View className={"flex gap-5 py-5"}>
-          <View className={"flex items-end"}>
+          <View className={"flex"}>
             <Controller
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (
@@ -119,12 +123,12 @@ const ContactDetails = () => {
             <P className={"text-sm text-destructive pt-1"}>{message}</P>
           </View>
 
-          <Button onPress={handleSubmit(OnSubmit)}>
+          <Button onPress={handleSubmit(OnSubmit)} variant={"secondary"} size={"lg"}>
             <Text>Register</Text>
           </Button>
         </View>
       </View>
-    </>
+    </View>
   );
 };
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, StyleSheet, ScrollView, ActivityIndicator } from "react-native";
 import axios from "axios";
 import { Button } from "@/components/Button";
-import { H1 } from "@/components/Typography";
+import {H1, H3} from "@/components/Typography";
 import { useRouter } from "expo-router";
 import { Text } from "react-native";
 import PetCard from "@/components/CreatePetCard"; // Import the PetCard component
@@ -48,7 +48,7 @@ const newUserPet = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      <View style={styles.header} className={"gap-2"}>
         <Button onPress={() => router.back()} size="icon" variant="ghost">
           <Text>
             <svg
@@ -65,7 +65,7 @@ const newUserPet = () => {
       </View>
 
       <ScrollView contentContainerStyle={styles.container}>
-        {pets.map((pet) => (
+        {pets && pets.map((pet) => (
           <PetCard
             key={pet.id.timestamp} // Use a unique value, e.g., `id.timestamp` or `creationTime`
             pet={{
@@ -76,14 +76,19 @@ const newUserPet = () => {
             }}
           />
         ))}
+        {pets.length == 0 &&
+            <View className={"items-center justify-center h-full"}>
+              <H3>You have no pets yet...</H3>
+            </View>
+        }
       </ScrollView>
 
-      <View style={styles.footer}>
-        <Button onPress={() => router.push("/AddPet/newPet")}>
+      <View style={styles.footer} className={"gap-2"}>
+        <Button onPress={() => router.push("/AddPet/newPet")} variant={"secondary"}>
           <Text>Add Pet</Text>
         </Button>
         <Button onPress={() => router.replace("/(user_dashboard)/Dashboard")}>
-          <Text>Continue</Text>
+          <Text className={"text-primary-foreground"}>Continue</Text>
         </Button>
       </View>
     </View>

@@ -12,6 +12,7 @@ import axios from "axios";
 import is from "@sindresorhus/is";
 import error = is.error;
 import React, { createContext, useContext } from "react";
+import {Label} from "@/components/Label";
 
 const FormSchema = z.object({
   firstname: z.string().min(1, "Please enter your first name."),
@@ -63,8 +64,8 @@ const PersonalDetails = () => {
   };
 
   return (
-    <>
-      <View className="flex flex-row m-5">
+    <View className={"m-5 gap-2"}>
+      <View className="flex flex-row">
         <Button onPress={() => router.back()} size={"icon"} variant={"ghost"}>
           <Text>
             <svg
@@ -78,13 +79,17 @@ const PersonalDetails = () => {
           </Text>
         </Button>
 
-        <H1>Register</H1>
       </View>
 
-      <View className="m-5">
-        <View></View>
-        <View className={"flex gap-5 py-5"}>
-          <View className={"items-end"}>
+        <View>
+            <H1>Register</H1>
+            <P>Create your free account today.</P>
+        </View>
+
+      <View className="">
+        <View className={"flex gap-3 py-2"}>
+          <View className={"gap-1"}>
+              <Label className={"font-bold text-lg"}>First Name</Label>
             <Controller
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (
@@ -95,7 +100,7 @@ const PersonalDetails = () => {
                     setMessage("");
                   }}
                   value={value}
-                  placeholder={"Firstname"}
+                  placeholder={"First Name"}
                 />
               )}
               name="firstname"
@@ -108,7 +113,8 @@ const PersonalDetails = () => {
             )}
           </View>
 
-          <View className={"items-end"}>
+          <View className={"gap-1"}>
+              <Label className={"font-bold text-lg"}>Last Name</Label>
             <Controller
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (
@@ -132,7 +138,8 @@ const PersonalDetails = () => {
             )}
           </View>
 
-          <View className={"items-end"}>
+          <View className={"gap-1"}>
+              <Label className={"font-bold text-lg"}>Email</Label>
             <Controller
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (
@@ -156,7 +163,8 @@ const PersonalDetails = () => {
             )}
           </View>
 
-          <View className={"items-end"}>
+          <View className={"gap-1"}>
+              <Label className={"font-bold text-lg"}>Username</Label>
             <Controller
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (
@@ -180,7 +188,8 @@ const PersonalDetails = () => {
             )}
           </View>
 
-          <View className={"flex items-end"}>
+          <View className={"gap-1"}>
+              <Label className={"font-bold text-lg"}>Password</Label>
             <Controller
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (
@@ -210,8 +219,15 @@ const PersonalDetails = () => {
             <Text>Continue</Text>
           </Button>
         </View>
+
+          <View className={"justify-center flex-row items-center py-3"}>
+              <P className={"text-sm"}>Already have an account?</P>
+              <Button variant={"link"} size={"sm"} className={"p-1"} onPress={() => router.replace("/Login")}>
+                  <Text>Login</Text>
+              </Button>
+          </View>
       </View>
-    </>
+    </View>
   );
 };
 

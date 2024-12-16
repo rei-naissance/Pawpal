@@ -7,15 +7,15 @@ import {Button} from "@/components/Button";
 import { useRouter } from "expo-router";
 
 interface Service {
-    Id: string;
-    ServiceName: string;
-    ServiceDescription: string;
-    ServicePrice: number;
-    ServiceOwner: string;
-    ServicePicture: string;
+    id: string;
+    serviceName: string;
+    serviceDescription: string;
+    servicePrice: number;
+    serviceOwner: string;
+    servicePicture: string;
 }
 
-const PawPal_Item = ({ service }: { service: Service }) => {
+const PawPal_Item = ({service} : { service: Service }) => {
     const router = useRouter();
     const userId = sessionStorage.getItem("userId");
 
@@ -23,11 +23,11 @@ const PawPal_Item = ({ service }: { service: Service }) => {
         router.push({
             pathname: '/Booking/BookingForm',
             params: {
-                ProviderId: service.ServiceOwner,
+                ProviderId: service.serviceOwner,
                 RecipientId: userId,
-                ServiceOwner: service.ServiceOwner,
-                ServiceName: service.ServiceName,
-                ServicePrice: service.ServicePrice
+                ServiceOwner: service.serviceOwner,
+                ServiceName: service.serviceName,
+                ServicePrice: service.servicePrice
             }
         });   
     }
@@ -45,8 +45,8 @@ const PawPal_Item = ({ service }: { service: Service }) => {
                     </Avatar>
                 </View>
                 <View>
-                    <P className={"font-bold"}>{service.ServiceOwner}</P>
-                    <P className={"text-xs"}>{service.ServiceName}</P>
+                    <P className={"font-bold"}>{service.serviceName}</P>
+                    <P className={"text-xs"}>{service.serviceDescription}</P>
                     <View className={"flex-row gap-2 items-center"}>
 
                         <Image source={require("@/assets/images/star-solid.svg")} style={styles.icon}/>
@@ -61,7 +61,7 @@ const PawPal_Item = ({ service }: { service: Service }) => {
                 </View>
             </View>
             <View className={""}>
-                <Button variant={"default"} size={"sm"}><Text className={"text-xs"} onPress={handleBook}>Book</Text></Button>
+                <Button variant={"default"} size={"sm"} onPress={() => handleBook()}><Text className={"text-xs"}>Book</Text></Button>
             </View>
         </View>
     )

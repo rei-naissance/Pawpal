@@ -155,7 +155,7 @@ const Login = () => {
       </View>
       <View className={"justify-center flex-row items-center py-3"}>
         <P className={"text-sm"}>Don't have an account?</P>
-        <Button variant={"link"} size={"sm"} className={"p-1"}>
+        <Button variant={"link"} size={"sm"} className={"p-1"} onPress={() => router.replace("/Register/PersonalDetails")}>
           <Text>Create account</Text>
         </Button>
       </View>
